@@ -5,12 +5,13 @@
 Skills encode the workflows, quality gates, and best practices that senior engineers use when building software. These ones are packaged so AI agents follow them consistently across every phase of development.
 
 ```
-  DEFINE          PLAN           BUILD          VERIFY         REVIEW          SHIP
- ┌──────┐      ┌──────┐      ┌──────┐      ┌──────┐      ┌──────┐      ┌──────┐
- │ Idea │ ───▶ │ Spec │ ───▶ │ Code │ ───▶ │ Test │ ───▶ │  QA  │ ───▶ │  Go  │
- │Refine│      │  PRD │      │ Impl │      │Debug │      │ Gate │      │ Live │
- └──────┘      └──────┘      └──────┘      └──────┘      └──────┘      └──────┘
-  /spec          /plan          /build        /test         /review       /ship
+  DEFINE          DESIGN            PLAN           BUILD          VERIFY         REVIEW          SHIP
+ ┌──────┐      ┌──────────┐      ┌──────┐      ┌──────┐      ┌──────┐      ┌──────┐      ┌──────┐
+ │ Idea │ ───▶ │  Spec    │ ───▶ │Proto │ ───▶ │ Plan │ ───▶ │ Code │ ───▶ │ Test │ ───▶ │  Go  │
+ │Refine│      │  PRD     │      │Figma │      │Tasks │      │ Impl │      │Debug │      │ Live │
+ └──────┘      └──────────┘      └──────┘      └──────┘      └──────┘      └──────┘      └──────┘
+  /spec           /spec            /design        /plan          /build        /test         /ship
+                                                                              /review
 ```
 
 ---
@@ -22,7 +23,8 @@ Skills encode the workflows, quality gates, and best practices that senior engin
 | What you're doing | Command | Key principle |
 |-------------------|---------|---------------|
 | Define what to build | `/spec` | Spec before code |
-| Plan how to build it | `/plan` | Small, atomic tasks |
+| Design the UI | `/design` | Prototype → Figma |
+| Plan how to build it | `/plan` | Small, atomic tasks with Figma refs |
 | Build incrementally | `/build` | One slice at a time |
 | Prove it works | `/test` | Tests are proof |
 | Review before merge | `/review` | Improve code health |
@@ -124,9 +126,9 @@ Skills are plain Markdown - they work with any agent that accepts system prompts
 
 ---
 
-## All 20 Skills
+## All 21 Skills
 
-The commands above are the entry points. Under the hood, they activate these 20 skills — each one a structured workflow with steps, verification gates, and anti-rationalization tables. You can also reference any skill directly.
+The commands above are the entry points. Under the hood, they activate these 21 skills — each one a structured workflow with steps, verification gates, and anti-rationalization tables. You can also reference any skill directly.
 
 ### Define - Clarify what to build
 
@@ -135,11 +137,17 @@ The commands above are the entry points. Under the hood, they activate these 20 
 | [idea-refine](skills/idea-refine/SKILL.md) | Structured divergent/convergent thinking to turn vague ideas into concrete proposals | You have a rough concept that needs exploration |
 | [spec-driven-development](skills/spec-driven-development/SKILL.md) | Write a PRD covering objectives, commands, structure, code style, testing, and boundaries before any code | Starting a new project, feature, or significant change |
 
+### Design - Prototype and import into Figma
+
+| Skill | What It Does | Use When |
+|-------|-------------|----------|
+| [design](skills/design/SKILL.md) | Three-phase workflow: (1) build a self-contained navigable HTML prototype with phone frames and a dev-nav sidebar, (2) produce a Figma-export HTML with every screen and dialog as a static `390×844` frame split across 5 steps, (3) import all frames into a target Figma file via the Figma MCP | You have a spec and the project has a UI — run after `/spec`, before `/plan` |
+
 ### Plan - Break it down
 
 | Skill | What It Does | Use When |
 |-------|-------------|----------|
-| [planning-and-task-breakdown](skills/planning-and-task-breakdown/SKILL.md) | Decompose specs into small, verifiable tasks with acceptance criteria and dependency ordering | You have a spec and need implementable units |
+| [planning-and-task-breakdown](skills/planning-and-task-breakdown/SKILL.md) | Decompose specs into small, verifiable tasks with acceptance criteria, dependency ordering, and Figma node URLs per UI screen | You have a spec (and optionally a Figma file) and need implementable units |
 
 ### Build - Write the code
 
@@ -240,10 +248,11 @@ Every skill follows a consistent anatomy:
 
 ```
 agent-skills/
-├── skills/                            # 20 core skills (SKILL.md per directory)
+├── skills/                            # 21 core skills (SKILL.md per directory)
 │   ├── idea-refine/                   #   Define
 │   ├── spec-driven-development/       #   Define
-│   ├── planning-and-task-breakdown/   #   Plan
+│   ├── design/                        #   Design  ← HTML prototype + Figma export + Figma import
+│   ├── planning-and-task-breakdown/   #   Plan    ← now collects Figma node URLs per screen
 │   ├── incremental-implementation/    #   Build
 │   ├── context-engineering/           #   Build
 │   ├── source-driven-development/     #   Build
