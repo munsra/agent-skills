@@ -76,7 +76,35 @@ Task 4: User can view task list (query + API + UI for list view)
 
 Each vertical slice delivers working, testable functionality.
 
-### Step 4: Write Tasks
+### Step 4: Collect Figma References (UI Projects Only)
+
+If the project has a UI and the `/design` skill has already been run, a Figma file with all screens already exists. Before writing tasks, collect Figma node URLs for each screen or component that will be implemented.
+
+**Ask the human:**
+
+```
+Il progetto ha un file Figma con le schermate importate.
+Per ogni schermata o componente che implementeremo, inviami il link
+diretto al nodo Figma corrispondente.
+
+Esempio:
+- Home: https://www.figma.com/design/<key>/...?node-id=48-2
+- Auth: https://www.figma.com/design/<key>/...?node-id=48-10
+- Chef AI: https://www.figma.com/design/<key>/...?node-id=48-24
+
+Se non hai ancora il file Figma, possiamo saltare questo step e
+aggiungere i link in seguito.
+```
+
+**If Figma links are provided**, attach each URL to the relevant task under a `**Figma reference:**` field. This allows the agent implementing the task to call `mcp__figma__get_design_context` directly from the task without asking the human again.
+
+**If Figma links are NOT available**, proceed without them and add a note:
+
+```
+**Figma reference:** Not available — implement from spec + prototype HTML.
+```
+
+### Step 5: Write Tasks
 
 Each task follows this structure:
 
@@ -84,6 +112,9 @@ Each task follows this structure:
 ## Task [N]: [Short descriptive title]
 
 **Description:** One paragraph explaining what this task accomplishes.
+
+**Figma reference:** https://www.figma.com/design/<key>/...?node-id=<id>
+(or "Not available — implement from spec + prototype HTML.")
 
 **Acceptance criteria:**
 - [ ] [Specific, testable condition]
@@ -103,7 +134,7 @@ Each task follows this structure:
 **Estimated scope:** [Small: 1-2 files | Medium: 3-5 files | Large: 5+ files]
 ```
 
-### Step 5: Order and Checkpoint
+### Step 6: Order and Checkpoint
 
 Arrange tasks so that:
 
